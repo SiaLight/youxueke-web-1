@@ -25,7 +25,7 @@ service.interceptors.response.use(response => {
   return Promise.reject()
 })
 
-export const request = obj => {
+export default obj => {
   if (config.DEVELOPMENT) {
     return Promise.resolve(obj.result)
   } else {

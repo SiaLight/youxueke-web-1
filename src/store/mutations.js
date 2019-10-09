@@ -1,10 +1,13 @@
 import {
   TEST,
-  LOGIN, LOGOUT
+  LOGIN,
+  LOGOUT
 } from './mutation-types'
+import utils from '@/utils'
 
 export default {
   [TEST] (state, { test }) {
+    utils
     console.log('test')
   },
   [LOGIN] (state) {

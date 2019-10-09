@@ -24,10 +24,11 @@
           <v-card-text>
             <v-form>
               <v-text-field
-                label="用户名"
+                label="请输入学号"
                 name="login"
                 prepend-icon="person"
                 type="text"
+                v-model="stuId"
               ></v-text-field>
 
               <v-text-field
@@ -36,6 +37,7 @@
                 name="password"
                 prepend-icon="lock"
                 type="password"
+                v-model="password"
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -50,17 +52,27 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
+  import utils from '@/utils'
 
   export default {
     name: "index",
+    data: () => ({
+      stuId: '',
+      password: ''
+    }),
     methods: {
       ...mapMutations([
         'LOGIN'
       ]),
-      loginHandler () {
-        this.LOGIN()
-        this.$router.push({name: 'home'})
+      ...mapActions([
+        'login'
+      ]),
+      async loginHandler () {
+        if (await this.login({ userName: this.userName, password: this.password }))
+          this.$router.push({name: 'home'})
+        else
+          alert('学号或密码错误')
       }
     }
   }
