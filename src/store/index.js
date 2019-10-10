@@ -7,7 +7,8 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-  loginState: false
+  loginState: false,
+  stuId: null
 }
 
 export default new Vuex.Store({

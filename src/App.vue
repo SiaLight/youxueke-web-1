@@ -16,7 +16,15 @@
               <v-list-item-title>查找课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'verify' })">
+          <v-list-item @click="$router.push({ name: 'search' })">
+            <v-list-item-action>
+              <v-icon>mdi-view-dashboard</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>已约课程</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="$router.push({ name: 'bookings' })">
             <v-list-item-action>
               <v-icon>mdi-settings</v-icon>
             </v-list-item-action>
@@ -37,7 +45,45 @@
 
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block @click="logoutHandler">注销</v-btn>
+          <v-dialog
+            v-model="logoutPrompt"
+            width="500"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn block @click="logoutPrompt = true">注销</v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+              >
+                提示
+              </v-card-title>
+
+              <v-card-text>确定要退出吗？</v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <div class="flex-grow-1"></div>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="logoutPrompt = false"
+                  >
+                  取消
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="logoutHandler"
+                >
+                  确认
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </div>
       </template>
     </v-navigation-drawer>
@@ -61,18 +107,18 @@
       fab
       fixed
       right
-      @click="dialog = !dialog"
+      @click="addCoursePrompt = !addCoursePrompt"
       v-if="loginState"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-dialog
-      v-model="dialog"
+      v-model="addCoursePrompt"
       width="800px"
     >
       <v-card>
         <v-card-title class="grey darken-2">
-          Create contact
+          发布课程
         </v-card-title>
         <v-container>
           <v-row>
@@ -81,67 +127,73 @@
               cols="12"
             >
               <v-row align="center">
-                <v-avatar
-                  size="40px"
-                  class="mr-4"
-                >
-                  <img
-                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
-                    alt=""
-                  >
-                </v-avatar>
                 <v-text-field
-                  placeholder="Name"
+                  prepend-icon="mdi-contact"
+                  placeholder="课程名称"
+                  v-model="courseName"
                 ></v-text-field>
               </v-row>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 prepend-icon="business"
-                placeholder="Company"
+                placeholder="主讲人姓名"
+                v-model="lecturer"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
-                placeholder="Job title"
+                placeholder="主讲人手机号码"
+                v-model="phoneNumber"
               ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-radio-group v-model="courseType" row>
+                <v-radio label="普通课程" :value="0"></v-radio>
+                <v-radio label="研讨课" :value="1"></v-radio>
+              </v-radio-group>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 prepend-icon="mail"
-                placeholder="Email"
+                placeholder="上课地点"
+                v-model="location"
               ></v-text-field>
             </v-col>
-            <v-col cols="12">
-              <v-text-field
-                type="tel"
-                prepend-icon="phone"
-                placeholder="(000) 000 - 0000"
-              ></v-text-field>
+            <v-col cols="6">
+              <v-date-picker v-model="date" locale="zh-cn"></v-date-picker>
+            </v-col>
+            <v-col cols="6">
+              <v-time-picker v-model="time" locale="zh-cn"></v-time-picker>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 prepend-icon="notes"
-                placeholder="Notes"
+                placeholder="课程介绍"
+                v-model="introduction"
               ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-file-input
+                placeholder="请上传课程的简介图片"
+                v-model="image"
+                @change="imageUpload"
+              >
+              </v-file-input>
             </v-col>
           </v-row>
         </v-container>
         <v-card-actions>
-          <v-btn
-            text
-            color="primary"
-          >More</v-btn>
           <div class="flex-grow-1"></div>
           <v-btn
             text
             color="primary"
-            @click="dialog = false"
-          >Cancel</v-btn>
+            @click="addCoursePrompt = false"
+          >取消</v-btn>
           <v-btn
             text
-            @click="dialog = false"
-          >Save</v-btn>
+            @click="addCourseHandler"
+          >确认</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,24 +202,37 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import utils from '@/utils'
 
 export default {
   name: 'App',
   components: {},
   computed: {
     ...mapState([
-      'loginState'
+      'loginState',
+      'stuId'
     ]),
     activeIndex () {
-      if (this.$route.path === '/home') return 2
-      else if (this.$route.path === '/search') return 0
-      else if (this.$route.path === '/verify') return 1
-      else return 0
+      if (this.$route.path === '/search') return 0
+      else if (this.$route.path === '/bookings') return 1
+      else if (this.$route.path === '/verify') return 2
+      else if (this.$route.path === '/home') return 3
+      else return null
     }
   },
   data: () => ({
     drawer: null,
-    dialog: false
+    addCoursePrompt: false,
+    logoutPrompt: false,
+    courseName: '',
+    lecturer: '',
+    phoneNumber: '',
+    introduction: '',
+    date: '',
+    time: '',
+    location: '',
+    image: null,
+    courseType: null
   }),
   created () {
     this.$vuetify.theme.dark = true
@@ -179,6 +244,26 @@ export default {
     logoutHandler () {
       this.LOGOUT()
       this.$router.push({ name: 'login' })
+      this.logoutPrompt = false
+    },
+    addCourseHandler () {
+      this.addCoursePrompt = false
+      utils.request({
+        invoke: utils.api.addCourse,
+        params: {
+          title: this.courseName,
+          des: this.introduction,
+          stuId: this.stuId,
+          location: this.location,
+          date: this.date + ' ' + this.time,
+          category: this.courseType,
+          trueName: this.lecturer,
+          phone: this.phoneNumber
+        }
+      })
+    },
+    imageUpload (e) {
+      console.log(e)
     }
   }
 }

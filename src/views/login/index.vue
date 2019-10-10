@@ -69,10 +69,12 @@
         'login'
       ]),
       async loginHandler () {
-        if (await this.login({ userName: this.userName, password: this.password }))
-          this.$router.push({name: 'home'})
-        else
-          alert('学号或密码错误')
+        this.LOGIN()
+        this.$router.push({name: 'home'})
+        // if (await this.login({ stuId: this.stuId, password: this.password }))
+        //   this.$router.push({name: 'home'})
+        // else
+        //   alert('学号或密码错误')
       }
     }
   }

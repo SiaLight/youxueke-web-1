@@ -29,6 +29,12 @@ export default new Router({
       meta: { requireLogin: true }
     },
     {
+      path: '/bookings',
+      name: 'bookings',
+      component: () => import(/* webpackChunkName: "bookings" */ '@/views/bookings'),
+      meta: { requireLogin: true }
+    },
+    {
       path: '/verify',
       name: 'verify',
       component: () => import(/* webpackChunkName: "verify" */ '@/views/verify'),
