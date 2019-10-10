@@ -18,7 +18,12 @@
             dark
             flat
           >
-            <v-toolbar-title>请登陆</v-toolbar-title>
+            <v-avatar size="48" class="mr-4">
+              <img
+                src="../../assets/logo1.png"
+              >
+            </v-avatar>
+            <v-toolbar-title>登陆优学课</v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
           <v-card-text>
