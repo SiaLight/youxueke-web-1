@@ -46,9 +46,10 @@
       app
       clipped-left
       v-if="loginState"
+      color="primary"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>优学课</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color:white"></v-app-bar-nav-icon>
+      <v-toolbar-title style="color:white">优学课</v-toolbar-title>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -56,7 +57,7 @@
     <v-btn
       title="发布课程"
       bottom
-      color="pink"
+      color="primary"
       dark
       fab
       fixed
@@ -170,7 +171,7 @@ export default {
     dialog: false
   }),
   created () {
-    this.$vuetify.theme.dark = true
+    this.$vuetify.theme.dark = false
   },
   methods: {
     ...mapMutations([
