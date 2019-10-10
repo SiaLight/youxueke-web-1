@@ -47,3 +47,7 @@ export const changeDate = params => {
 export const getPosted = params => {
   return service.post('/release/findCourseByTea', params)
 }
+
+export const allCourse = params => {
+  return service.post('/course/list', params)
+}

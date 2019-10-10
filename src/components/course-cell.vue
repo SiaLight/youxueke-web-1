@@ -14,9 +14,9 @@
               src="../assets/logo.png"></v-img>
           </v-col>
           <v-col cols="8">
-            <p class="title text--primary">
+            <router-link tag="a" :to="{ path: '/course/' + courseId }" class="title text--primary">
               {{title}}
-            </p>
+            </router-link>
             <P class="subtitle-1 font-weight-light">{{author}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
@@ -26,7 +26,7 @@
 
             <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{date}}</p>
             <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{location}}</p>
-            <P v-if="isCheck" style="color:limegreen">
+            <P v-if="verification" style="color:limegreen">
               已审核
             </P>
             <P v-else style="color:darkred">
@@ -40,14 +40,19 @@
 </template>
 <script>
   export default {
+    name: 'course-cell',
+    props: {
+      courseId: Number,
+      title: String,
+      img: String,
+      des: String,
+      lecturer: String,
+      date: String,
+      location: String,
+      verification: Number
+    },
     data: () => ({
-      img: '/assets/logo.png',
-      title: '计算机网络',
-      author: '张同学',
-      des: '什么第九版搜第几个爱可登几女aeaeovj奥尔低聚',
-      date: '2019-10-12',
-      location:'理科大楼',
-      isCheck: false
+
     })
   }
 </script>

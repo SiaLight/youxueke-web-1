@@ -18,27 +18,47 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+          <v-date-picker v-model="date" @input="pickHandler"></v-date-picker>
         </v-menu>
       </v-col>
     </v-row>
-    <course></course>
+    <course-list :course-list="courseData"></course-list>
   </div>
 </template>
 
 <script>
-  import course from '../../components/course-cell.vue'
+  import courseList from '@/components/course-list'
+
+  import utils from '@/utils'
+
   export default {
     name: "index",
     data: () => ({
       date: new Date().toLocaleDateString().replace(/\//g, '-'),
-      menu2:false
+      menu2:false,
+      courseData: []
     }),
-    components:{course},
+    components:{ courseList },
     methods: {
-      showCourse (e) {
+      pickHandler (e) {
+        this.menu2 = false
         console.log(e)
+        this.getCourse(e)
+      },
+      getCourse (date) {
+        utils.request({
+          invoke: utils.api.getCourseByDate,
+          params: {
+            date: date
+          }
+        })
+          .then(res => {
+            if (res.data.status === 'true') this.courseData = res.data.Course
+          })
       }
+    },
+    mounted () {
+      this.getCourse(new Date().toLocaleDateString().replace(/\//g, '-').split(' ')[0])
     }
   }
 </script>
