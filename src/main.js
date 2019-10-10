@@ -6,6 +6,15 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(item => item.meta.requireLogin)) {
+    if (store.state.loginState) next()
+    else next({ path: '/' })
+  } else {
+    next()
+  }
+})
+
 new Vue({
   router,
   store,
