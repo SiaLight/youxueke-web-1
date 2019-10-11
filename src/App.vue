@@ -10,7 +10,7 @@
         <v-list-item-group v-model="activeIndex">
           <v-list-item @click="$router.push({ name: 'search' })">
             <v-list-item-action>
-              <v-icon>mdi-view-dashboard</v-icon>
+              <v-icon>mdi-book-search</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>查找课程</v-list-item-title>
@@ -18,15 +18,15 @@
           </v-list-item>
           <v-list-item @click="$router.push({ name: 'bookings' })">
             <v-list-item-action>
-              <v-icon>mdi-view-dashboard</v-icon>
+              <v-icon>mdi-checkbox-multiple-marked</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>已约课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'verify' })">
+          <v-list-item v-if="identity === 3" @click="$router.push({ name: 'verify' })">
             <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-clipboard-check-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>审核课程</v-list-item-title>
@@ -34,10 +34,10 @@
           </v-list-item>
           <v-list-item @click="$router.push({ name: 'home' })">
             <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-dots-horizontal-circle</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>我的信息</v-list-item-title>
+              <v-list-item-title>关于优学课</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -118,32 +118,28 @@
       width="800px"
     >
       <v-card>
-        <v-card-title class="grey darken-2">
+        <v-card-title class="title">
           发布课程
         </v-card-title>
         <v-container>
           <v-row>
-            <v-col
-              class="align-center justify-space-between"
-              cols="12"
-            >
-              <v-row align="center">
-                <v-text-field
-                  prepend-icon="mdi-contact"
-                  placeholder="课程名称"
-                  v-model="title"
-                ></v-text-field>
-              </v-row>
+            <v-col cols="12">
+              <v-text-field
+                prepend-icon="mdi-card-bulleted"
+                placeholder="课程名称"
+                v-model="title"
+              ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
-                prepend-icon="business"
+                prepend-icon="mdi-account-card-details"
                 placeholder="主讲人姓名"
                 v-model="trueName"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
+                prepend-icon="mdi-cellphone-text"
                 placeholder="主讲人手机号码"
                 v-model="phone"
               ></v-text-field>
@@ -156,16 +152,16 @@
             </v-col>
             <v-col cols="12">
               <v-text-field
-                prepend-icon="mail"
+                prepend-icon="business"
                 placeholder="上课地点"
                 v-model="location"
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
-              <v-date-picker v-model="date" locale="zh-cn"></v-date-picker>
-            </v-col>
-            <v-col cols="6">
-              <v-time-picker v-model="time" locale="zh-cn"></v-time-picker>
+            <v-col cols="12">
+              <v-row justify="space-around" align="center">
+                <v-date-picker v-model="date" locale="zh-cn"></v-date-picker>
+                <v-time-picker v-model="time" locale="zh-cn"></v-time-picker>
+              </v-row>
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -176,7 +172,8 @@
             </v-col>
             <v-col cols="12">
               <v-file-input
-                placeholder="请上传课程的简介图片"
+                disabled
+                placeholder="请上传课程的简介图片（尚未支持）"
                 v-model="image"
                 @change="imageUpload"
               >

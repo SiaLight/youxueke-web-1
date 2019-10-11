@@ -21,7 +21,7 @@
 
       <v-card-actions>
         <div class="flex-grow-1"></div>
-        <v-dialog v-model="editPrompt">
+        <v-dialog v-if="identity === 3 && verification === 0" v-model="editPrompt">
           <template v-slot:activator="{ on }">
             <v-btn
               color="red lighted-2"
@@ -60,7 +60,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="bookPrompt" v-if="identity !== 2" >
+        <v-dialog v-model="bookPrompt" v-if="identity !== 3 && !booked" >
           <template v-slot:activator="{ on }">
             <v-btn text @click="bookPrompt = true">我要预约</v-btn>
           </template>
@@ -85,7 +85,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-btn text v-else @click="verifyHandler">通过</v-btn>
+        <v-btn disabled text v-if="identity !== 3 && booked">您已预约过此课程</v-btn>
+        <v-btn text v-if="identity === 3 && verification === 0" @click="verifyHandler">通过</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -112,14 +113,25 @@
             next(vm => {
               utils.fieldMap(res.Course, vm, [
                 'title',
-                (from, to) => to.introduction = from.des,
-                (from, to) => to.lecturer = from.trueName,
+                'des:introduction',
+                'trueName:lecturer',
                 'category',
-                (from, to) => to.courseId = from.id,
+                'id:courseId',
+                'verification',
                 (from, to) => to.date = to.dateCopy = from.date.split(' ')[0],
                 (from, to) => to.time = to.timeCopy = from.date.split(' ')[1],
                 (from, to) => to.location = to.locationCopy = from.location
               ])
+
+              utils.request({
+                invoke: utils.api.findBook,
+                params: {
+                  stuId: vm.stuId
+                }
+              })
+                .then(res => {
+                  if (res.Course.some(item => item.id === parseInt(to.params.courseId))) vm.booked = true
+                })
             })
           } else {
             next({name: 'search'})
@@ -140,7 +152,8 @@
       dateCopy: '',
       timeCopy: '',
       bookerId: '',
-      bookerPhone: ''
+      bookerPhone: '',
+      booked: ''
     }),
     computed: {
       fullDate () {
