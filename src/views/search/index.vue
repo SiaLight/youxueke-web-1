@@ -53,7 +53,8 @@
           }
         })
           .then(res => {
-            if (res.data.status === 'true') this.courseData = res.data.Course
+            if (res.status === 'true') this.courseData = res.Course
+            else this.courseData = []
           })
       }
     },

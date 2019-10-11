@@ -3,14 +3,15 @@
     <v-list-item>
       <course-cell
         v-for="item in courseList"
-        :key="item.courseId"
+        :key="item.id"
         :title="item.title"
-        :lecturer="item.lecturer"
-        :course-id="item.courseId"
+        :lecturer="item.trueName"
+        :course-id="item.id"
         :location="item.location"
         :date="item.date"
         :verification="item.verification"
         :img="item.img"
+        :des="item.des"
       ></course-cell>
     </v-list-item>
   </v-list>

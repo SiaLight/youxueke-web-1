@@ -17,7 +17,7 @@
             <router-link tag="a" :to="{ path: '/course/' + courseId }" class="title text--primary">
               {{title}}
             </router-link>
-            <P class="subtitle-1 font-weight-light">{{author}}</P>
+            <P class="subtitle-1 font-weight-light">{{lecturer}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
                 {{des}}

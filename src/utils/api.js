@@ -1,11 +1,11 @@
-import service from './request'
+import { service } from './request'
 
 export const test = params => {
   return service.post('/', params)
 }
 
 export const login = params => {
-  return service.post('/login', params)
+  return service.post('/user/login', params)
 }
 
 export const bookingList = params => {

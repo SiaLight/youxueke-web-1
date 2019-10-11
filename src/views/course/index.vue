@@ -43,24 +43,49 @@
                     <v-text-field
                       prepend-icon="business"
                       placeholder="课程地点"
-                      v-model="location"
+                      v-model="locationCopy"
                     ></v-text-field>
                   </v-row>
                   <v-row justify="space-around" align="center">
-                    <v-date-picker v-model="date" locale="zh-cn"></v-date-picker>
-                    <v-time-picker v-model="time" locale="zh-cn"></v-time-picker>
+                    <v-date-picker v-model="dateCopy" locale="zh-cn"></v-date-picker>
+                    <v-time-picker v-model="timeCopy" locale="zh-cn"></v-time-picker>
                   </v-row>
                 </v-col>
               </v-row>
             </v-container>
             <v-card-actions>
               <div class="flex-grow-1"></div>
-              <v-btn color="primary" text>确定</v-btn>
+              <v-btn color="primary" text @click="alterHandler">确定</v-btn>
               <v-btn color="primary" text @click="cancelHandler">取消</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-btn text @click="bookHandler">我要预约</v-btn>
+        <v-dialog v-model="bookPrompt" v-if="identity !== 2" >
+          <template v-slot:activator="{ on }">
+            <v-btn text @click="bookPrompt = true">我要预约</v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">请输入你的信息</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+<!--                    <v-text-field label="学号" v-model="bookerId"></v-text-field>-->
+                    <v-text-field label="手机号码" v-model="bookerPhone"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="blue darken-1" text @click="bookPrompt = false">取消</v-btn>
+              <v-btn color="blue darken-1" text @click="bookHandler">预约</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-btn text v-else @click="verifyHandler">通过</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -73,30 +98,27 @@
   export default {
     name: "index",
     props: {
-      courseId: {
-        type: Number,
-        default: 0
-      }
+      courseId: String
     },
     beforeRouteEnter (to, from, next) {
       utils.request({
         invoke: utils.api.getCourseByID,
         params: {
-          courseId: this.courseId
+          courseId: parseInt(to.params.courseId)
         }
       })
         .then(res => {
-          if (res.data.status === 'true') {
+          if (res.status === 'true') {
             next(vm => {
-              utils.fieldMap(res.data.Course, vm, [
+              utils.fieldMap(res.Course, vm, [
                 'title',
-                'des',
-                'lecturer',
-                'location',
+                (from, to) => to.introduction = from.des,
+                (from, to) => to.lecturer = from.trueName,
                 'category',
                 (from, to) => to.courseId = from.id,
-                (from, to) => to.date = from.date.split(' ')[0],
-                (from, to) => to.date = from.date.split(' ')[1]
+                (from, to) => to.date = to.dateCopy = from.date.split(' ')[0],
+                (from, to) => to.time = to.timeCopy = from.date.split(' ')[1],
+                (from, to) => to.location = to.locationCopy = from.location
               ])
             })
           } else {
@@ -106,33 +128,96 @@
     },
     data: () => ({
       editPrompt: false,
+      bookPrompt: false,
       category: 0,
-      title: '计算机网络',
-      lecturer: '金加宝',
-      introduction: '计算机网络是一门令大家很头疼的课程',
-      date: '2019-10-10',
-      time: '21:00',
-      location: '文史楼302',
-      _location: '',
-      _date: '',
-      _time: ''
+      title: '',
+      lecturer: '',
+      introduction: '',
+      date: '',
+      time: '',
+      location: '',
+      locationCopy: '',
+      dateCopy: '',
+      timeCopy: '',
+      bookerId: '',
+      bookerPhone: ''
     }),
     computed: {
       fullDate () {
         return this.date + ' ' + this.time
       },
       ...mapState([
+        'stuId',
         'identity'
       ])
     },
     methods: {
       bookHandler () {
-
+        utils.request({
+          invoke: utils.api.booking,
+          params: {
+            stuId: this.stuId,
+            courseId: parseInt(this.courseId),
+            phone: this.bookerPhone
+          }
+        })
+          .then(res => {
+            if (res === true) {
+              this.bookPrompt = false
+              this.$router.replace({ name: 'search' })
+            } else alert('预约失败')
+          })
       },
       cancelHandler () {
-        this._location = this.location
-        this._date = this.date
-        this._time = this.time
+        this.locationCopy = this.location
+        this.dateCopy = this.date
+        this.timeCopy = this.time
+        this.editPrompt = false
+      },
+      verifyHandler () {
+        utils.request({
+          invoke: utils.api.verify,
+          params: {
+            courseId: parseInt(this.courseId)
+          }
+        })
+          .then(res => {
+            if (res === true) this.$router.replace({ name: 'verify' })
+            else alert('通过失败')
+          })
+      },
+      alterHandler () {
+        if (this.locationCopy !== this.location) {
+          utils.request({
+            invoke: utils.api.changeLocation,
+            params: {
+              courseId: parseInt(this.courseId),
+              location: this.locationCopy
+            }
+          })
+            .then(res => {
+              if (res === true) {
+                this.location = this.locationCopy
+              } else alert('地点修改失败')
+            })
+        }
+
+        if (this.time !== this.timeCopy || this.date !== this.dateCopy) {
+          utils.request({
+            invoke: utils.api.changeDate,
+            params: {
+              courseId: this.courseId,
+              date: this.dateCopy + ' ' + this.timeCopy
+            }
+          })
+            .then(res => {
+              if (res === true) {
+                this.date = this.dateCopy
+                this.time = this.timeCopy
+              } else alert('时间修改失败')
+            })
+        }
+
         this.editPrompt = false
       }
     }

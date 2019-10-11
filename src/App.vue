@@ -249,11 +249,10 @@ export default {
       this.logoutPrompt = false
     },
     addCourseHandler () {
-      if (this.category === 0 && this.identity !== 1) {
+      if (this.category === 0 && this.identity !== 2) {
         alert('学生导师才可以发布此类课程')
         return
       }
-      this.addCoursePrompt = false
       utils.request({
         invoke: utils.api.addCourse,
         params: {
@@ -267,6 +266,13 @@ export default {
           phone: this.phone
         }
       })
+        .then(res => {
+          if (res.status === 'true') {
+            this.$router.replace({ name: 'search' })
+            this.addCoursePrompt = false
+          }
+          else alert('发布失败')
+        })
     },
     imageUpload (e) {
       console.log(e)

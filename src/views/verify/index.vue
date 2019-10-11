@@ -18,7 +18,7 @@
         invoke: utils.api.allCourse
       })
         .then(res => {
-          this.courseData = res.data.Course.filter(item => !item.verification)
+          this.courseData = res.Course.filter(item => !item.verification)
         })
     }
   }

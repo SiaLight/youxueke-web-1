@@ -29,7 +29,7 @@
         }
       })
         .then(res => {
-          this.courseData = res.data.Course
+          this.courseData = res.Course
         })
     }
   }

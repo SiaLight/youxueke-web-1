@@ -20,7 +20,8 @@
           >
             <v-avatar size="48" class="mr-4">
               <img
-                src="../../assets/logo1.png"
+                :src="require('@/assets/logo.png')"
+                alt="logo"
               >
             </v-avatar>
             <v-toolbar-title>登陆优学课</v-toolbar-title>
@@ -58,7 +59,6 @@
 
 <script>
   import { mapMutations, mapActions } from 'vuex'
-  import utils from '@/utils'
 
   export default {
     name: "index",
@@ -74,12 +74,12 @@
         'login'
       ]),
       async loginHandler () {
-        this.LOGIN()
-        this.$router.push({name: 'search'})
-        // if (await this.login({ stuId: this.stuId, password: this.password }))
-        //   this.$router.push({name: 'home'})
-        // else
-        //   alert('学号或密码错误')
+        // this.LOGIN()
+        // this.$router.push({name: 'search'})
+        if (await this.login({ stuId: this.stuId, password: this.password }))
+          this.$router.push({name: 'search'})
+        else
+          alert('学号或密码错误')
       }
     }
   }

@@ -16,10 +16,10 @@ export default {
       }
     })
       .then(res => {
-        if (res.data.status === 'true') {
+        if (res.status === 'true' || res.status === 'false') {
           context.commit(LOGIN, {
-            stuId: res.data.userInfo.stuId,
-            identity: res.data.userInfo.identity
+            stuId: res.userInfo.id,
+            identity: res.userInfo.identity
           })
           return Promise.resolve(true)
         } else {
