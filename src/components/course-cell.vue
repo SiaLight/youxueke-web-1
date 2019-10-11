@@ -20,7 +20,7 @@
             <P class="subtitle-1 font-weight-light">{{lecturer}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
-                {{des}}
+                {{item.des}}
               </p>
             </div>
 
@@ -52,7 +52,6 @@
       verification: Number
     },
     data: () => ({
-
     })
   }
 </script>
