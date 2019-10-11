@@ -60,7 +60,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="bookPrompt" v-if="identity !== 3 && !booked" >
+        <v-dialog v-model="bookPrompt" v-if="identity !== 3 && !booked && verification" >
           <template v-slot:activator="{ on }">
             <v-btn text @click="bookPrompt = true">我要预约</v-btn>
           </template>
@@ -86,6 +86,7 @@
           </v-card>
         </v-dialog>
         <v-btn disabled text v-if="identity !== 3 && booked">您已预约过此课程</v-btn>
+        <v-btn disabled text v-if="identity !== 3 && !verification">此课程尚未通过审核</v-btn>
         <v-btn text v-if="identity === 3 && verification === 0" @click="verifyHandler">通过</v-btn>
       </v-card-actions>
     </v-card>

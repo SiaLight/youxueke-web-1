@@ -1,5 +1,5 @@
 export default {
-  BASE_URL: 'http://localhost:8090',
+  BASE_URL: 'https://www.youxuekeecnu.cn',
   DEVELOPMENT: false,
   REQUEST_TIMEOUT: 5000
 }

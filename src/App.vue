@@ -32,14 +32,14 @@
               <v-list-item-title>审核课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'home' })">
-            <v-list-item-action>
-              <v-icon>mdi-dots-horizontal-circle</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>关于优学课</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+<!--          <v-list-item @click="$router.push({ name: 'home' })">-->
+<!--            <v-list-item-action>-->
+<!--              <v-icon>mdi-dots-horizontal-circle</v-icon>-->
+<!--            </v-list-item-action>-->
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title>关于优学课</v-list-item-title>-->
+<!--            </v-list-item-content>-->
+<!--          </v-list-item>-->
         </v-list-item-group>
       </v-list>
 
