@@ -19,50 +19,48 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+          <v-date-picker v-model="date" @input="pickHandler"></v-date-picker>
         </v-menu>
       </v-col>
     </v-row>
-    <div class="d-flex justify-center align-center">
-    <course-cell v-for="(item, index) in courseList" :key="item.id" :index="index" :item="item"></course-cell>
-    </div>
+    <course-list :course-list="courseData"></course-list>
   </div>
 </template>
 
 <script>
-  import courseCell from '../../components/course-cell.vue'
+  import courseList from '@/components/course-list'
+
   import utils from '@/utils'
+
   export default {
     name: "index",
     data: () => ({
       date: new Date().toLocaleDateString().replace(/\//g, '-'),
       menu2:false,
-      courseList:[]
+      courseData: []
     }),
-    components:{courseCell },
+    components:{ courseList },
     methods: {
-      showCourse (e) {
+      pickHandler (e) {
+        this.menu2 = false
         console.log(e)
+        this.getCourse(e)
       },
-      changeHandler (info) {
+      getCourse (date) {
         utils.request({
           invoke: utils.api.getCourseByDate,
           params: {
-            date: info.date
-          },
-          result: utils.api.GET_COURSE_LIST_BY_DATE
+            date: date
+          }
         })
-          .then(function (res) {
-            this.courseList = []
-            this.courseList.push(...res.data.course)
-          }.bind(this))
-        console.log(this.courseList)
+          .then(res => {
+            if (res.status === 'true') this.courseData = res.Course
+            else this.courseData = []
+          })
       }
-      },
+    },
     mounted () {
-      console.log('mounted')
-      console.log(this)
-      this.changeHandler({ date: new Date().toLocaleDateString().replace(/\//g, '-') })
+      this.getCourse(new Date().toLocaleDateString().replace(/\//g, '-').split(' ')[0])
     }
 
   }

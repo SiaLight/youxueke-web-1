@@ -14,19 +14,19 @@
               src="../assets/logo.png"></v-img>
           </v-col>
           <v-col cols="8">
-            <p class="title text--primary">
-              {{item.title}}
-            </p>
-            <P class="subtitle-1 font-weight-light">{{item.trueName}}</P>
+            <router-link tag="a" :to="{ path: '/course/' + courseId }" class="title text--primary">
+              {{title}}
+            </router-link>
+            <P class="subtitle-1 font-weight-light">{{lecturer}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
                 {{item.des}}
               </p>
             </div>
 
-            <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{item.date}}</p>
-            <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{item.location}}</p>
-            <P v-if="isCheck" style="color:limegreen">
+            <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{date}}</p>
+            <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{location}}</p>
+            <P v-if="verification" style="color:limegreen">
               已审核
             </P>
             <P v-else style="color:darkred">
@@ -40,13 +40,19 @@
 </template>
 <script>
   export default {
-    data: () => ({
-      img: '/assets/logo.png',
-      isCheck: false
-    }),
+    name: 'course-cell',
     props: {
-      item: Object
-    }
+      courseId: Number,
+      title: String,
+      img: String,
+      des: String,
+      lecturer: String,
+      date: String,
+      location: String,
+      verification: Number
+    },
+    data: () => ({
+    })
   }
 </script>
 

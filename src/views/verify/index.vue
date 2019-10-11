@@ -1,40 +1,26 @@
 <template>
-  <div class="d-flex justify-center align-center">
-    <course-cell v-for="(item, index) in verifyList" :key="item.id" :index="index" :item="item"></course-cell>
-  </div>
+  <course-list :course-list="courseData"></course-list>
 </template>
 
 <script>
-  import courseCell from '../../components/course-cell.vue'
+  import courseList from '@/components/course-list'
+
   import utils from '@/utils'
-  import {mapState} from "vuex";
+
   export default {
     name: "index",
-    components:{courseCell},
+    components: { courseList },
     data: () => ({
-      verifyList:[]
+      courseData: []
     }),
-    methods: {
-
-    },
-    computed:{
-      ...mapState([
-        'stuId'
-      ])
-    },
-    mounted() {
+    mounted () {
       utils.request({
-        invoke: utils.api.verify,
-        params: {
-          stuId: this.stuId
-        },
+        invoke: utils.api.allCourse
       })
-        .then(function (res) {
-          this.verifyList = []
-          this.verifyList.push(...res.data.course)
+        .then(res => {
+          this.courseData = res.Course.filter(item => !item.verification)
         })
     }
-
   }
 </script>
 

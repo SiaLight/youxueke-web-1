@@ -8,7 +8,8 @@ Vue.use(Vuex)
 
 const state = {
   loginState: false,
-  stuId: null
+  stuId: null,
+  identity: null // 1 for student; 2 for student lecturer; 3 for administrator
 }
 
 export default new Vuex.Store({

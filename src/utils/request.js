@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from './config'
 
-const service = axios.create({
+export const service = axios.create({
   // process.env.NODE_ENV === 'development' 来判断是否开发环境
   baseURL: config.BASE_URL,
   timeout: config.REQUEST_TIMEOUT

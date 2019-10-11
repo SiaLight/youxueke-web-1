@@ -41,6 +41,13 @@ export default new Router({
       meta: { requireLogin: true }
     },
     {
+      path: '/course/:courseId',
+      name: 'course',
+      component: () => import(/* webpackChunkName: "course" */ '@/views/course'),
+      meta: { requireLogin: true },
+      props: true
+    },
+    {
       path: '*',
       name: 'not found',
       // for the unknown page

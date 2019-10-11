@@ -10,7 +10,7 @@
         <v-list-item-group v-model="activeIndex">
           <v-list-item @click="$router.push({ name: 'search' })">
             <v-list-item-action>
-              <v-icon>mdi-view-dashboard</v-icon>
+              <v-icon>mdi-book-search</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>查找课程</v-list-item-title>
@@ -24,7 +24,7 @@
               <v-list-item-title>已约课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'verify' })">
+          <v-list-item v-if="identity === 3" @click="$router.push({ name: 'verify' })">
             <v-list-item-action>
               <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
             </v-list-item-action>
@@ -37,7 +37,7 @@
               <v-icon>mdi-account-badge-horizontal-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>我的信息</v-list-item-title>
+              <v-list-item-title>关于优学课</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -119,31 +119,30 @@
     >
       <v-card>
         <v-card-title class="primary lighten-1"  >
-          <P style="color:white">发布课程</P>
+          <p style="color:white">发布课程</p>
         </v-card-title>
         <v-card-text>
         <v-container>
           <v-row>
-
-              <v-col cols="6">
-                <v-text-field
-                  prepend-icon="mdi-rhombus"
-                  placeholder="课程名称"
-                  v-model="courseName"
-                ></v-text-field>
-              </v-col>
+            <v-col cols="12">
+              <v-text-field
+                prepend-icon="mdi-card-bulleted"
+                placeholder="课程名称"
+                v-model="title"
+              ></v-text-field>
+            </v-col>
             <v-col cols="6">
               <v-text-field
                 prepend-icon="mdi-account"
                 placeholder="主讲人姓名"
-                v-model="lecturer"
+                v-model="trueName"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 prepend-icon=" mdi-cellphone-android"
                 placeholder="主讲人手机号码"
-                v-model="phoneNumber"
+                v-model="phone"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
@@ -154,7 +153,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-radio-group v-model="courseType" row>
+              <v-radio-group v-model="category" row>
                 <v-radio label="普通课程" :value="0"></v-radio>
                 <v-radio label="研讨课" :value="1"></v-radio>
               </v-radio-group>
@@ -217,7 +216,8 @@
             </v-col>
             <v-col cols="6">
               <v-file-input
-                placeholder="请上传课程的简介图片"
+                disabled
+                placeholder="请上传课程的简介图片（尚未支持）"
                 v-model="image"
                 @change="imageUpload"
               >
@@ -253,7 +253,8 @@ export default {
   computed: {
     ...mapState([
       'loginState',
-      'stuId'
+      'stuId',
+      'identity'
     ]),
     activeIndex () {
       if (this.$route.path === '/search') return 0
@@ -267,17 +268,17 @@ export default {
     drawer: null,
     addCoursePrompt: false,
     logoutPrompt: false,
-    courseName: '',
-    lecturer: '',
-    phoneNumber: '',
+    title: '',
+    trueName: '',
+    phone: '',
     introduction: '',
     date: '',
     time: '',
     location: '',
     image: null,
-    courseType: null,
     menu1:false,
     menu2:false
+    category: 1
   }),
   created () {
     this.$vuetify.theme.dark = false
@@ -292,20 +293,30 @@ export default {
       this.logoutPrompt = false
     },
     addCourseHandler () {
-      this.addCoursePrompt = false
+      if (this.category === 0 && this.identity !== 2) {
+        alert('学生导师才可以发布此类课程')
+        return
+      }
       utils.request({
         invoke: utils.api.addCourse,
         params: {
-          title: this.courseName,
+          title: this.title,
           des: this.introduction,
           stuId: this.stuId,
           location: this.location,
           date: this.date + ' ' + this.time,
-          category: this.courseType,
-          trueName: this.lecturer,
-          phone: this.phoneNumber
+          category: this.category,
+          trueName: this.trueName,
+          phone: this.phone
         }
       })
+        .then(res => {
+          if (res.status === 'true') {
+            this.$router.replace({ name: 'search' })
+            this.addCoursePrompt = false
+          }
+          else alert('发布失败')
+        })
     },
     imageUpload (e) {
       console.log(e)

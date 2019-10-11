@@ -1,11 +1,11 @@
-import service from './request'
+import { service } from './request'
 
 export const test = params => {
   return service.post('/', params)
 }
 
 export const login = params => {
-  return service.post('/login', params)
+  return service.post('/user/login', params)
 }
 
 export const bookingList = params => {
@@ -46,4 +46,8 @@ export const changeDate = params => {
 
 export const getPosted = params => {
   return service.post('/release/findCourseByTea', params)
+}
+
+export const allCourse = params => {
+  return service.post('/course/list', params)
 }
