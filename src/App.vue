@@ -16,17 +16,17 @@
               <v-list-item-title>查找课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'search' })">
+          <v-list-item @click="$router.push({ name: 'bookings' })">
             <v-list-item-action>
-              <v-icon>mdi-view-dashboard</v-icon>
+              <v-icon>mdi-format-list-bulleted-square</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>已约课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="$router.push({ name: 'bookings' })">
+          <v-list-item @click="$router.push({ name: 'verify' })">
             <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>审核课程</v-list-item-title>
@@ -34,7 +34,7 @@
           </v-list-item>
           <v-list-item @click="$router.push({ name: 'home' })">
             <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-account-badge-horizontal-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>我的信息</v-list-item-title>
@@ -118,34 +118,39 @@
       width="800px"
     >
       <v-card>
-        <v-card-title class="grey darken-2">
-          发布课程
+        <v-card-title class="primary lighten-1"  >
+          <P style="color:white">发布课程</P>
         </v-card-title>
+        <v-card-text>
         <v-container>
           <v-row>
-            <v-col
-              class="align-center justify-space-between"
-              cols="12"
-            >
-              <v-row align="center">
+
+              <v-col cols="6">
                 <v-text-field
-                  prepend-icon="mdi-contact"
+                  prepend-icon="mdi-rhombus"
                   placeholder="课程名称"
                   v-model="courseName"
                 ></v-text-field>
-              </v-row>
-            </v-col>
+              </v-col>
             <v-col cols="6">
               <v-text-field
-                prepend-icon="business"
+                prepend-icon="mdi-account"
                 placeholder="主讲人姓名"
                 v-model="lecturer"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
+                prepend-icon=" mdi-cellphone-android"
                 placeholder="主讲人手机号码"
                 v-model="phoneNumber"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                prepend-icon="notes"
+                placeholder="课程介绍"
+                v-model="introduction"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -154,27 +159,63 @@
                 <v-radio label="研讨课" :value="1"></v-radio>
               </v-radio-group>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="6">
+              <v-menu
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="date"
+                    prepend-icon="event"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+              </v-menu>
+
+            </v-col>
+            <v-col cols="6">
+              <v-menu
+                ref="menu"
+                v-model="menu1"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="time"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="time"
+                    prepend-icon="access_time"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-time-picker
+                  v-if="menu1"
+                  v-model="time"
+                  full-width
+                  @click:minute="$refs.menu.save(time)"
+                ></v-time-picker>
+              </v-menu>
+            </v-col>
+            <v-col cols="6">
               <v-text-field
-                prepend-icon="mail"
+                prepend-icon=" mdi-map-marker"
                 placeholder="上课地点"
                 v-model="location"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-date-picker v-model="date" locale="zh-cn"></v-date-picker>
-            </v-col>
-            <v-col cols="6">
-              <v-time-picker v-model="time" locale="zh-cn"></v-time-picker>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                prepend-icon="notes"
-                placeholder="课程介绍"
-                v-model="introduction"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
               <v-file-input
                 placeholder="请上传课程的简介图片"
                 v-model="image"
@@ -184,6 +225,7 @@
             </v-col>
           </v-row>
         </v-container>
+        </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
           <v-btn
@@ -233,7 +275,9 @@ export default {
     time: '',
     location: '',
     image: null,
-    courseType: null
+    courseType: null,
+    menu1:false,
+    menu2:false
   }),
   created () {
     this.$vuetify.theme.dark = false

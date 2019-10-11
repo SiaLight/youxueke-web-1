@@ -15,17 +15,17 @@
           </v-col>
           <v-col cols="8">
             <p class="title text--primary">
-              {{title}}
+              {{item.title}}
             </p>
-            <P class="subtitle-1 font-weight-light">{{author}}</P>
+            <P class="subtitle-1 font-weight-light">{{item.trueName}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
-                {{des}}
+                {{item.des}}
               </p>
             </div>
 
-            <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{date}}</p>
-            <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{location}}</p>
+            <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{item.date}}</p>
+            <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{item.location}}</p>
             <P v-if="isCheck" style="color:limegreen">
               已审核
             </P>
@@ -42,13 +42,11 @@
   export default {
     data: () => ({
       img: '/assets/logo.png',
-      title: '计算机网络',
-      author: '张同学',
-      des: '什么第九版搜第几个爱可登几女aeaeovj奥尔低聚',
-      date: '2019-10-12',
-      location:'理科大楼',
       isCheck: false
-    })
+    }),
+    props: {
+      item: Object
+    }
   }
 </script>
 
