@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="start" class="ml-4">
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="4" sm="3" md="2">
         <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -9,6 +9,7 @@
           transition="scale-transition"
           offset-y
           min-width="290px"
+          @change="changeHandler"
         >
           <template v-slot:activator="{ on }">
             <v-text-field
@@ -61,6 +62,7 @@
     mounted () {
       this.getCourse(new Date().toLocaleDateString().replace(/\//g, '-').split(' ')[0])
     }
+
   }
 </script>
 
