@@ -277,7 +277,7 @@ export default {
     location: '',
     image: null,
     menu1:false,
-    menu2:false
+    menu2:false,
     category: 1
   }),
   created () {
