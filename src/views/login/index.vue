@@ -59,12 +59,13 @@
 
 <script>
   import { mapMutations, mapActions } from 'vuex'
-
+  import courseList from '@/components/course-list'
   export default {
     name: "index",
+    components: {courseList},
     data: () => ({
       stuId: '',
-      password: ''
+      password: '',
     }),
     methods: {
       ...mapMutations([
@@ -74,7 +75,7 @@
         'login'
       ]),
       async loginHandler () {
-        // this.LOGIN()
+         this.LOGIN()
         // this.$router.push({name: 'search'})
         if (await this.login({ stuId: this.stuId, password: this.password }))
           this.$router.push({name: 'search'})
