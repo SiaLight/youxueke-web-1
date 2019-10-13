@@ -7,6 +7,39 @@
       align="center"
       justify="center"
     >
+      <v-col cols="10">
+        <v-alert
+          type="warning"
+          border="left"
+          colored-border
+          elevation="3"
+          transition="scale-transition"
+          dense
+          dismissible
+        >注意不要输入其他同学的学号</v-alert>
+      </v-col>
+      <v-col cols="10">
+        <v-alert
+          type="warning"
+          border="left"
+          colored-border
+          elevation="3"
+          transition="scale-transition"
+          dense
+          dismissible
+        >如果学号输入错误请联系辅导员老师</v-alert>
+      </v-col>
+      <v-col cols="10">
+        <v-alert
+          type="warning"
+          border="left"
+          colored-border
+          elevation="3"
+          transition="scale-transition"
+          dense
+          dismissible
+        >优学课小程序版即将推出</v-alert>
+      </v-col>
       <v-col
         cols="12"
         sm="8"

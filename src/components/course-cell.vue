@@ -20,7 +20,7 @@
             <P class="subtitle-1 font-weight-light">{{lecturer}}</P>
             <div style="height:40px" class="mt-4">
               <p class="grey-darken-3 des" >
-                {{item.des}}
+                {{des}}
               </p>
             </div>
 

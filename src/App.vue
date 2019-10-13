@@ -277,15 +277,18 @@ export default {
     location: '',
     image: null,
     menu1:false,
-    menu2:false
+    menu2:false,
     category: 1
   }),
   created () {
     this.$vuetify.theme.dark = false
+    this.PROBE()
+    if (this.loginState && this.$route.path !== '/search') this.$router.replace({ name: '/search' })
   },
   methods: {
     ...mapMutations([
-      'LOGOUT'
+      'LOGOUT',
+      'PROBE'
     ]),
     logoutHandler () {
       this.LOGOUT()
@@ -312,7 +315,6 @@ export default {
       })
         .then(res => {
           if (res.status === 'true') {
-            this.$router.replace({ name: 'search' })
             this.addCoursePrompt = false
           }
           else alert('发布失败')
