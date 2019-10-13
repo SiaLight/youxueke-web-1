@@ -154,7 +154,7 @@
             </v-col>
             <v-col cols="12">
               <v-radio-group v-model="category" row>
-                <v-radio label="普通课程" :value="0"></v-radio>
+                <v-radio label="学生讲师课程" :value="0"></v-radio>
                 <v-radio label="研讨课" :value="1"></v-radio>
               </v-radio-group>
             </v-col>
@@ -283,7 +283,7 @@ export default {
   created () {
     this.$vuetify.theme.dark = false
     this.PROBE()
-    if (this.loginState && this.$route.path !== '/search') this.$router.replace({ name: '/search' })
+    if (this.loginState && this.$route.path !== '/search') this.$router.push({ name: '/search' })
   },
   methods: {
     ...mapMutations([
