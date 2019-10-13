@@ -1,20 +1,26 @@
 <template>
-  <v-list>
-    <v-list-item>
-      <course-cell
-        v-for="item in courseList"
-        :key="item.id"
-        :title="item.title"
-        :lecturer="item.trueName"
-        :course-id="item.id"
-        :location="item.location"
-        :date="item.date"
-        :verification="item.verification"
-        :img="item.img"
-        :des="item.des"
-      ></course-cell>
-    </v-list-item>
-  </v-list>
+  <div class="d-flex justify-center">
+      <v-container>
+        <v-row dense>
+          <v-col v-for="item in courseList" cols="12">
+            <course-cell
+              :key="item.id"
+              :title="item.title"
+              :lecturer="item.trueName"
+              :course-id="item.id"
+              :location="item.location"
+              :date="item.date"
+              :verification="item.verification"
+              :img="item.img"
+              :des="item.des"
+            ></course-cell>
+
+          </v-col>
+        </v-row>
+      </v-container>
+
+  </div>
+
 </template>
 
 <script>

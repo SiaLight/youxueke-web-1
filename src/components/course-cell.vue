@@ -1,12 +1,15 @@
 <template>
   <div>
+    <v-hover v-slot:default="{hover}" open-delay="200" >
+
+
     <v-card
       class="mx-auto"
-      max-width="50%"
-      Elevation="8"
+      max-width="60%"
+      :elevation="hover ? 16 : 2"
     >
       <v-container >
-        <v-row class="py-2 px-2">
+        <v-row >
           <v-col class=" align-center" cols="4">
             <v-img
               height="180"
@@ -14,7 +17,7 @@
               src="../assets/logo.png"></v-img>
           </v-col>
           <v-col cols="8">
-            <router-link tag="a" :to="{ path: '/course/' + courseId }" class="title text--primary">
+            <router-link tag="a" :to="{ path: '/course/' + courseId }" class="title">
               {{title}}
             </router-link>
             <P class="subtitle-1 font-weight-light">{{lecturer}}</P>
@@ -24,8 +27,7 @@
               </p>
             </div>
 
-            <p class="mt-5"><v-icon class="ml-2">mdi-clock-outline</v-icon>{{date}}</p>
-            <p ><v-icon class="ml-2">mdi-map-marker</v-icon>{{location}}</p>
+            <p class="mt-5"><v-icon >mdi-clock-outline</v-icon>{{date}}<v-icon class="ml-2">mdi-map-marker</v-icon>{{location}}</p>
             <P v-if="verification" style="color:limegreen">
               已审核
             </P>
@@ -36,6 +38,7 @@
         </v-row>
       </v-container>
     </v-card>
+    </v-hover>
   </div>
 </template>
 <script>

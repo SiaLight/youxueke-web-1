@@ -1,5 +1,7 @@
 <template>
+  <div>
   <course-list :course-list="courseData"></course-list>
+  </div>
 </template>
 
 <script>

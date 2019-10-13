@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card class="mx-auto"
+            max-width="60%">
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="headline mb-1">{{ title }}</v-list-item-title>
