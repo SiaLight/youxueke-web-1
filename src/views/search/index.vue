@@ -37,7 +37,28 @@
     data: () => ({
       date: new Date().toLocaleDateString().replace(/\//g, '-'),
       menu2:false,
-      courseData: []
+      courseData: [
+          {
+              id: 1,
+              title: '操作系统',
+              trueName: '张同学',
+              location: '理科大楼',
+              date: '2019-12-12',
+              verification: true,
+              img:'../assets/logo.png',
+              des:'速度滑冰  三人同行染色体和 素人特工任务提供'
+          },
+          {
+              id: 1,
+              title: '操作系统',
+              trueName: '张同学',
+              location: '理科大楼',
+              date: '2019-12-13',
+              verification: true,
+              img:'../assets/logo.png',
+              des:'速度滑冰  三人同行染色体和 素人特工任务提供'
+          }
+    ]
     }),
     components:{ courseList },
     methods: {
@@ -46,18 +67,21 @@
         console.log(e)
         this.getCourse(e)
       },
+        changeHandler(){
+
+        },
       getCourse (date) {
-        utils.request({
-          invoke: utils.api.getCourseByDate,
-          params: {
-            date: date
-          }
-        })
-          .then(res => {
-            if (res.status === 'true') this.courseData = res.Course
-            else this.courseData = []
-          })
-      }
+      //   utils.request({
+      //     invoke: utils.api.getCourseByDate,
+      //     params: {
+      //       date: date
+      //     }
+      //   })
+      //     .then(res => {
+      //       if (res.status === 'true') this.courseData = res.Course
+      //       else this.courseData = []
+      //     })
+     }
     },
     mounted () {
       this.getCourse(new Date().toLocaleDateString().replace(/\//g, '-').split(' ')[0])
