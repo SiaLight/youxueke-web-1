@@ -92,10 +92,8 @@
 
 <script>
   import { mapMutations, mapActions } from 'vuex'
-  import courseList from '@/components/course-list'
   export default {
     name: "index",
-    components: {courseList},
     data: () => ({
       stuId: '',
       password: '',

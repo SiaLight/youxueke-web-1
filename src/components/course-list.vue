@@ -2,7 +2,7 @@
   <div class="d-flex justify-center">
       <v-container>
         <v-row dense>
-          <v-col v-for="item in courseList" cols="12">
+          <v-col v-for="item in courseList" cols="12" :key="item.id">
             <course-cell
               :key="item.id"
               :title="item.title"
