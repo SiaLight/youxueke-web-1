@@ -20,32 +20,32 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: () => import(/* webpackChunkName: "fallback" */ '@/views/home'),
-      meta: { requireLogin: true }
+      // meta: { requireLogin: true }
     },
     {
       path: '/search',
       name: 'search',
       component: () => import(/* webpackChunkName: "search" */ '@/views/search'),
-      meta: { requireLogin: true }
+      // meta: { requireLogin: true }
     },
     {
       path: '/bookings',
       name: 'bookings',
       component: () => import(/* webpackChunkName: "bookings" */ '@/views/bookings'),
-      meta: { requireLogin: true }
+      // meta: { requireLogin: true }
     },
     {
       path: '/verify',
       name: 'verify',
       component: () => import(/* webpackChunkName: "verify" */ '@/views/verify'),
-      meta: { requireLogin: true }
+      // meta: { requireLogin: true }
     },
     {
       path: '/course/:courseId',
       name: 'course',
       component: () => import(/* webpackChunkName: "course" */ '@/views/course'),
-      meta: { requireLogin: true },
-      props: true
+      // meta: { requireLogin: true },
+      // props: true
     },
     {
       path: '*',

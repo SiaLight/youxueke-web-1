@@ -107,13 +107,13 @@
       ...mapActions([
         'login'
       ]),
-      async loginHandler () {
+       loginHandler () {
          // this.LOGIN()
         // this.$router.push({name: 'search'})
-        if (await this.login({ stuId: this.stuId, password: this.password }))
+        // if (await this.login({ stuId: this.stuId, password: this.password }))
           this.$router.push({name: 'search'})
-        else
-          alert('学号或密码错误')
+        // else
+        //   alert('学号或密码错误')
       }
     }
   }
