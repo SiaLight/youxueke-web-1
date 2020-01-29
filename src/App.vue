@@ -49,7 +49,7 @@
             v-model="logoutPrompt"
             width="500"
           >
-            <template v-slot:activator="{ on }">
+            <template >
               <v-btn block @click="logoutPrompt = true">注销</v-btn>
             </template>
 
