@@ -43,9 +43,9 @@
               <v-list-item-title>所有团队</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item  @click="$router.push({ name: 'verify' })">
+          <v-list-item  @click="$router.push({ name: 'match' })">
             <v-list-item-action>
-              <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
+              <v-icon>info</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>比赛信息</v-list-item-title>
@@ -54,14 +54,10 @@
          
         </v-list-item-group>
       </v-list>
-
+       <v-btn block @click="logoutPrompt = true" style="width: 100px; position:fixed; bottom: 0px">注销</v-btn>
       <template v-slot:append>
         <div class="pa-2">
-          <v-dialog v-model="logoutPrompt" width="500">
-            <template>
-              <v-btn block @click="logoutPrompt = true">注销</v-btn>
-            </template>
-
+          <v-dialog v-model="logoutPrompt" width="500">         
             <v-card>
               <v-card-title class="headline grey lighten-2" primary-title>提示</v-card-title>
 
@@ -96,7 +92,7 @@
       fixed
       right
       @click="addCoursePrompt = !addCoursePrompt"
-      
+     
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -208,6 +204,7 @@ export default {
       else if (this.$route.path === "/home") return 3;
       else if (this.$route.path === "/users") return 3;
       else if (this.$route.path === "/teams") return 4;
+      else if (this.$route.path === "/match") return 6;
       else return null;
     }
   },
