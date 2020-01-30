@@ -41,6 +41,12 @@ export default new Router({
       // meta: { requireLogin: true }
     },
     {
+      path: '/match',
+      name: 'match',
+      component: () => import(/* webpackChunkName: "verify" */ '@/views/matchInfo')
+      // meta: { requireLogin: true }
+    },
+    {
       path: '/course/:courseId',
       name: 'course',
       component: () => import(/* webpackChunkName: "course" */ '@/views/course')
