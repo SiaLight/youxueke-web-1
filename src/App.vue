@@ -27,7 +27,7 @@
               <v-list-item-title>审核课程</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item  @click="$router.push({ name: 'verify' })">
+          <v-list-item  @click="$router.push({ name: 'users' })">
             <v-list-item-action>
               <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
             </v-list-item-action>
@@ -35,7 +35,7 @@
               <v-list-item-title>所有用户</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item  @click="$router.push({ name: 'verify' })">
+          <v-list-item  @click="$router.push({ name: 'teams' })">
             <v-list-item-action>
               <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
             </v-list-item-action>
@@ -96,7 +96,7 @@
       fixed
       right
       @click="addCoursePrompt = !addCoursePrompt"
-      v-if="loginState"
+      
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -206,6 +206,8 @@ export default {
       else if (this.$route.path === "/bookings") return 1;
       else if (this.$route.path === "/verify") return 2;
       else if (this.$route.path === "/home") return 3;
+      else if (this.$route.path === "/users") return 3;
+      else if (this.$route.path === "/teams") return 4;
       else return null;
     }
   },

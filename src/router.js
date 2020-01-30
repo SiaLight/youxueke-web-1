@@ -41,6 +41,18 @@ export default new Router({
       // meta: { requireLogin: true }
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import(/* webpackChunkName: "verify" */ '@/views/users')
+      // meta: { requireLogin: true }
+    },
+    {
+      path: '/teams',
+      name: 'teams',
+      component: () => import(/* webpackChunkName: "verify" */ '@/views/teams')
+      // meta: { requireLogin: true }
+    },
+    {
       path: '/course/:courseId',
       name: 'course',
       component: () => import(/* webpackChunkName: "course" */ '@/views/course')
