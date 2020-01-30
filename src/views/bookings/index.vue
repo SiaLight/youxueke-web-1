@@ -1,6 +1,7 @@
 <template>
   <div>
   <course-list :course-list="courseData"></course-list>
+  <P>预约界面</P>
 </div>
 </template>
 
