@@ -29,7 +29,7 @@
           </v-list-item>
           <v-list-item  @click="$router.push({ name: 'users' })">
             <v-list-item-action>
-              <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
+              <v-icon>mdi-phone</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>所有用户</v-list-item-title>
@@ -37,7 +37,7 @@
           </v-list-item>
           <v-list-item  @click="$router.push({ name: 'teams' })">
             <v-list-item-action>
-              <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
+              <v-icon>mdi-home</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>所有团队</v-list-item-title>
