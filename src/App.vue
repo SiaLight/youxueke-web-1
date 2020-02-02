@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-mode="drawer" app clipped>
+    <v-navigation-drawer v-mode="drawer" app clipped v-if="loginState">
       <v-list dense>
         <v-list-item-group v-model="activeIndex">
           <v-list-item @click="$router.push({ name: 'search' })">
@@ -76,7 +76,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left color="primary">
+    <v-app-bar app clipped-left color="primary" v-if="loginState">
       <v-app-bar-nav-icon @click.stop="changeDrawer" style="color:white"></v-app-bar-nav-icon>
       <v-toolbar-title style="color:white">优学课</v-toolbar-title>
     </v-app-bar>
@@ -92,7 +92,7 @@
       fixed
       right
       @click="addCoursePrompt = !addCoursePrompt"
-     
+      v-if="loginState"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -227,7 +227,7 @@ export default {
   created() {
     this.$vuetify.theme.dark = false;
     this.PROBE();
-    if (this.$route.path !== "/search") this.$router.push({ name: "search" });
+    if (this.loginState&&this.$route.path !== "/search") this.$router.push({ name: "search" });
   },
   methods: {
     ...mapMutations(["LOGOUT", "PROBE"]),
